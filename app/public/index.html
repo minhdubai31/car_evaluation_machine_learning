@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/fff06ecf43.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="max-w-xs mt-5 m-auto">
+        <div class="text-3xl text-center font-bold">Car Evaluation</div>
+        <form action="http://127.0.0.1:6969/evaluate_single" method="post" id="form1">
+            <label for="buying" class="text-sm font-medium mt-4 block">Buying price:</label>
+            <select class="p-1 w-full border border-gray-400 rounded" name="buying" id="buying">
+                <!-- <option disabled selected value>Select an option</option> -->
+                <option value="0">Low</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+                <option value="3">Very high</option>
+            </select>
+            <label for="maint" class="text-sm font-medium mt-4 block">Price of the maintennance:</label>
+            <select class="p-1 w-full border border-gray-400 rounded" name="maint" id="maint">
+                <!-- <option disabled selected value>Select an option</option> -->
+                <option value="0">Low</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+                <option value="3">Very high</option>
+            </select>
+            <label for="doors" class="text-sm font-medium mt-4 block">Number of doors:</label>
+            <select class="p-1 w-full border border-gray-400 rounded" name="doors" id="doors">
+                <!-- <option disabled selected value>Select an option</option> -->
+                <option value="0">2 doors</option>
+                <option value="1">3 doors</option>
+                <option value="2">4 doors</option>
+                <option value="3">5 more doors</option>
+            </select>
+            <label for="persons" class="text-sm font-medium mt-4 block">Capacity in terms of persons to carry:</label>
+            <select class="p-1 w-full border border-gray-400 rounded" name="persons" id="persons">
+                <!-- <option disabled selected value>Select an option</option> -->
+                <option value="0">2 persons</option>
+                <option value="1">4 persons</option>
+                <option value="2">5 more persons</option>
+            </select>
+            <label for="lug_boot" class="text-sm font-medium mt-4 block">The size of luggage boot:</label>
+            <select class="p-1 w-full border border-gray-400 rounded" name="lug_boot" id="lug_boot">
+                <!-- <option disabled selected value>Select an option</option> -->
+                <option value="0">Small</option>
+                <option value="1">Medium</option>
+                <option value="2">Big</option>
+            </select>
+            <label for="safety" class="text-sm font-medium mt-4 block">Estimated safety of the car:</label>
+            <select class="p-1 w-full border border-gray-400 rounded" name="safety" id="safety">
+                <!-- <option disabled selected value>Select an option</option> -->
+                <option value="0">Low</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+            </select>
+            <div class="text-center text-white">
+                <button id="submitBtn" class="p-2 mt-2 m-auto px-5 rounded bg-blue-500 hover:bg-blue-700 duration-150 disabled:bg-blue-900/30" type="submit">Evaluate</button>
+                <button hidden id="resetBtn" class="p-2 mt-2 m-auto px-5 rounded bg-blue-500 hover:bg-blue-700 duration-150" type="reset"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
+        </form>
+
+        <div id="result" hidden class="mt-5 text-center relative">
+            <span class="p-3 px-16 rounded-lg bg-red-500 text-white inline-block">
+            </span>
+        </div>
+
+        <p class="my-5 text-xs text-center">Or upload your CSV file</p>
+        <form id="form2" action="http://127.0.0.1:6969/evaluate_file" method="post" enctype="multipart/form-data" class="text-center">
+            <label class="p-3 px-5 bg-blue-500 rounded text-white cursor-pointer hover:bg-blue-700 duration-150" for="csv_file"><i class="fa-solid fa-upload pe-3"></i>Upload your file</label>
+            <input hidden type="file" name="csv_file" id="csv_file">
+        </form>
+    </div>
+    <script>
+        $(function () {
+            $('#form1').submit(function (e) { 
+                e.preventDefault();
+                resultDiv = $('#result').hide();
+                $('#submitBtn').prop('disabled', true).text('Evaluating...');
+
+                method = $(this).prop('method');
+                url = $(this).prop('action');
+
+                $.ajax({
+                    type: method,
+                    url: url,
+                    data: $(this).serialize(),
+                    processData: false,
+                    success: function (response) {
+                        $('#submitBtn').text('Evaluated');
+                        $('#resetBtn').show();
+                        resultDiv.children('span').text('This car is ' + response.toUpperCase());
+                        resultDiv.slideDown();
+                        console.log(JSON.stringify(response));
+                    }
+                });
+            });
+
+            $('#resetBtn').click((e) => {
+                $('#resetBtn').hide();
+                $('#submitBtn').prop('disabled', false).text('Evaluate');
+                $('#result').slideUp();
+            });
+
+            $('select').each((index, elem) =>{
+                $(elem).change((e)=> {
+                    $('#resetBtn').hide();
+                    $('#submitBtn').prop('disabled', false).text('Evaluate');
+                    $('#result').slideUp();
+                });
+            });
+
+            $('#csv_file').change((e) => {
+                $('#form2').submit();
+            })
+        });
+    </script>
+</body>
+</html>
