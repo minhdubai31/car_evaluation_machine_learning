@@ -78,7 +78,6 @@ def export_feature_importances(feature_importances, index, savepath):
     plt.savefig(savepath)
 
 
-# Convert string values to numeric
 def car_data_to_numeric(data):
     data_processed = data.copy()
 
@@ -135,7 +134,7 @@ def car_data_to_numeric(data):
 car_data = pd.read_csv('resource/car_evaluation.csv', delimiter=',')
 
 
-# # Export pie chart values distribution every columns
+# # Export pie chart values distribution of each columns (to image files)
 # for attribute in car_data.columns:
 #     export_values_distribution(
 #         column=car_data[attribute], 
@@ -143,7 +142,7 @@ car_data = pd.read_csv('resource/car_evaluation.csv', delimiter=',')
 #         title='Tỉ lệ giữa các giá trị trong cột \"'+attribute+'\"'
 #     )
 
-# Convert string values to numeric
+# Convert data string values to numeric
 car_data = car_data_to_numeric(car_data)
 
 
@@ -151,7 +150,7 @@ car_data = car_data_to_numeric(car_data)
 X = car_data.drop(columns='class')
 y = car_data['class']
 
-# # Export heatmap to an image file
+# # Export heatmap chart to an image file
 # export_heatmap(data=car_data, save_path='img/heatmap/car_evaluation.png', round_decimals=3)
 
 
@@ -160,10 +159,10 @@ knn_f1_score = []
 bayes_f1_score = []
 randomforest_f1_score = []
 
-# Number of test
-num_of_test = 50
+# Number of tests
+num_of_tests = 50
 
-for i in  range(num_of_test):
+for i in  range(num_of_tests):
     # Split data using hold-out method
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3.0)
     
@@ -199,7 +198,7 @@ for i in  range(num_of_test):
 
 
 export_line_chart(
-    np.array(range(1, num_of_test+1)), 
+    np.array(range(1, num_of_tests+1)), 
     [knn_f1_score, bayes_f1_score, randomforest_f1_score], 
     ["KNN", "Bayes", "Random Forest"], 
     ["m", "c", "r"],
