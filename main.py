@@ -9,6 +9,8 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
 
+# Function to create a heatmap chart displaying correlation matrix
+# and save it to an image file
 def export_heatmap(data, save_path, round_decimals=5, title='Correlation matrix'):
     # Set size for the chart
     plt.figure(figsize=(18, 15))
@@ -25,6 +27,8 @@ def export_heatmap(data, save_path, round_decimals=5, title='Correlation matrix'
     plt.savefig(save_path)
 
 
+# Function to create a pie chart displaying the ratio between the values 
+# of the feature and save it to image files
 def export_values_distribution(column, save_path, title='Values distribution'):
     labels = np.unique(column)
     values = column.value_counts()
@@ -43,6 +47,8 @@ def export_values_distribution(column, save_path, title='Values distribution'):
     plt.savefig(save_path)
 
 
+# Function to create a line chart displaying each model's test scores
+# and save it to an image file
 def export_line_chart(x_arr, y_arr, labels_arr, colors_arr, save_path):
     # Set size for the chart
     plt.figure(figsize=(15, 10))
@@ -62,6 +68,8 @@ def export_line_chart(x_arr, y_arr, labels_arr, colors_arr, save_path):
     plt.savefig(save_path)
 
 
+# Function to create a horizontal columns chart displaying the importance level
+# of each feature and save it to an image file
 def export_feature_importances(feature_importances, index, savepath):
     feature_imp = pd.Series(feature_importances, index=index).sort_values(ascending=False)
 
@@ -78,6 +86,7 @@ def export_feature_importances(feature_importances, index, savepath):
     plt.savefig(savepath)
 
 
+# Function to convert data's string values to numeric values
 def car_data_to_numeric(data):
     data_processed = data.copy()
 
@@ -134,15 +143,15 @@ def car_data_to_numeric(data):
 car_data = pd.read_csv('resource/car_evaluation.csv', delimiter=',')
 
 
-# # Export pie chart values distribution of each columns (to image files)
-# for attribute in car_data.columns:
-#     export_values_distribution(
-#         column=car_data[attribute], 
-#         save_path='img/values_distribution/'+attribute+'.png',
-#         title='Tỉ lệ giữa các giá trị trong cột \"'+attribute+'\"'
-#     )
+# Export pie charts displaying values distribution of each feature (to image files)
+for attribute in car_data.columns:
+    export_values_distribution(
+        column=car_data[attribute], 
+        save_path='img/values_distribution/'+attribute+'.png',
+        title='Tỉ lệ giữa các giá trị trong cột \"'+attribute+'\"'
+    )
 
-# Convert data string values to numeric
+# Convert data's string values to numeric values
 car_data = car_data_to_numeric(car_data)
 
 
@@ -150,53 +159,51 @@ car_data = car_data_to_numeric(car_data)
 X = car_data.drop(columns='class')
 y = car_data['class']
 
-# # Export heatmap chart to an image file
-# export_heatmap(data=car_data, save_path='img/heatmap/car_evaluation.png', round_decimals=3)
+
+# Export heatmap chart (to an image file)
+export_heatmap(data=car_data, save_path='img/heatmap/car_evaluation.png', round_decimals=3)
 
 
-# Save scores of all tests
+# Variables store model's test scores
 knn_f1_score = []
 bayes_f1_score = []
 randomforest_f1_score = []
 
+
 # Number of tests
 num_of_tests = 50
+
 
 for i in  range(num_of_tests):
     # Split data using hold-out method
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3.0)
     
-
     ### K Nearest Neighbors algorithm
     knn_model = KNeighborsClassifier(n_neighbors=10)
     knn_model.fit(X_train, y_train)
-    
     # Predict test data
     y_pred = knn_model.predict(X_test)
-
+    # Calculate f1 score
     knn_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))
-
 
     ### Bayes algorithm
     bayes_model = GaussianNB()
     bayes_model.fit(X_train, y_train)
-
     # Predict test data
     y_pred = bayes_model.predict(X_test)
-
+    # Calculate f1 score
     bayes_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))
-
 
     ### Decision Tree Classifier algorithm
     randomforest_model = RandomForestClassifier()
     model = randomforest_model.fit(X_train, y_train)
-
     # Predict test data
     y_pred = randomforest_model.predict(X_test)
-
+    # Calculate f1 score
     randomforest_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))    
 
 
+# Export line chart displaying f1 scores of each model (to an image file)
 export_line_chart(
     np.array(range(1, num_of_tests+1)), 
     [knn_f1_score, bayes_f1_score, randomforest_f1_score], 
@@ -206,4 +213,5 @@ export_line_chart(
 )
 
 
-# export_feature_importances(model.feature_importances_, X.columns, 'img/feature_importances/feature_importances.png')
+# Export feature importances chart (to an image file)
+export_feature_importances(model.feature_importances_, X.columns, 'img/feature_importances/feature_importances.png')
