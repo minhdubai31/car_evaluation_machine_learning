@@ -160,7 +160,7 @@ randomforest_f1_score = []
 
 
 for i in  range(50):
-    # Split input data using hold-out method
+    # Split data using hold-out method
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3.0)
     
 
@@ -168,7 +168,7 @@ for i in  range(50):
     knn_model = KNeighborsClassifier(n_neighbors=10)
     knn_model.fit(X_train, y_train)
     
-    # Predict input test data
+    # Predict test data
     y_pred = knn_model.predict(X_test)
 
     knn_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))
@@ -178,7 +178,7 @@ for i in  range(50):
     bayes_model = GaussianNB()
     bayes_model.fit(X_train, y_train)
 
-    # Predict input test data
+    # Predict test data
     y_pred = bayes_model.predict(X_test)
 
     bayes_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))
@@ -188,7 +188,7 @@ for i in  range(50):
     randomforest_model = RandomForestClassifier()
     model = randomforest_model.fit(X_train, y_train)
 
-    # Predict input test data
+    # Predict test data
     y_pred = randomforest_model.predict(X_test)
 
     randomforest_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))    
