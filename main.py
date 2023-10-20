@@ -154,12 +154,16 @@ y = car_data['class']
 # # Export heatmap to an image file
 # export_heatmap(data=car_data, save_path='img/heatmap/car_evaluation.png', round_decimals=3)
 
+
+# Save scores of all tests
 knn_f1_score = []
 bayes_f1_score = []
 randomforest_f1_score = []
 
+# Number of test
+num_of_test = 50
 
-for i in  range(50):
+for i in  range(num_of_test):
     # Split data using hold-out method
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3.0)
     
@@ -194,13 +198,13 @@ for i in  range(50):
     randomforest_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))    
 
 
-# export_line_chart(
-#     np.array(range(1,11)), 
-#     [knn_f1_score, bayes_f1_score, randomforest_f1_score], 
-#     ["KNN", "Bayes", "Random Forest"], 
-#     ["m", "c", "r"],
-#     "img/line_chart/line.png"    
-# )
+export_line_chart(
+    np.array(range(1, num_of_test+1)), 
+    [knn_f1_score, bayes_f1_score, randomforest_f1_score], 
+    ["KNN", "Bayes", "Random Forest"], 
+    ["m", "c", "r"],
+    "img/line_chart/line.png"    
+)
 
 
 # export_feature_importances(model.feature_importances_, X.columns, 'img/feature_importances/feature_importances.png')
