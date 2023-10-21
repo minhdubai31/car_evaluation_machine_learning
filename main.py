@@ -11,14 +11,14 @@ from sklearn.neighbors import KNeighborsClassifier
 
 # Function to create a heatmap chart displaying correlation matrix
 # and save it to an image file
-def export_heatmap(data, save_path, round_decimals=5, title='Correlation matrix'):
+def export_heatmap(data, save_path, round_decimals=5, title='Biểu đồ tương quan'):
     # Set size for the chart
     plt.figure(figsize=(18, 15))
 
     # Create the heatmap
     sns.set(font_scale=2)
     sns.heatmap(data.corr().round(round_decimals),
-                annot=True, cmap='Blues', linewidths=1)
+                annot=True, cmap='crest', linewidths=1)
     
     # Set title for the chart
     plt.title(title, fontsize=30, fontweight='bold', pad=30)
@@ -29,7 +29,7 @@ def export_heatmap(data, save_path, round_decimals=5, title='Correlation matrix'
 
 # Function to create a pie chart displaying the ratio between the values 
 # of the feature and save it to image files
-def export_values_distribution(column, save_path, title='Values distribution'):
+def export_values_distribution(column, save_path, title='Phân bố giá trị'):
     labels = np.unique(column)
     values = column.value_counts()
     
@@ -51,16 +51,17 @@ def export_values_distribution(column, save_path, title='Values distribution'):
 # and save it to an image file
 def export_line_chart(x_arr, y_arr, labels_arr, colors_arr, save_path):
     # Set size for the chart
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(17, 11))
     plt.rc('font', size=18)
 
     for index, arr in enumerate(y_arr):
         plt.plot(x_arr, arr, label=labels_arr[index], color=colors_arr[index], linewidth=3) 
     
-    plt.xlabel('Lần test') 
-    plt.ylabel('F1 score') 
+    plt.xlabel('Lần test', labelpad=30, fontstyle='italic') 
+    plt.ylabel('F1 score', labelpad=30, fontstyle='italic') 
     plt.ylim(0, 100)
     plt.yticks(np.arange(0, 101, 10))
+    plt.xlim(1, max(x_arr))
     plt.title('Biểu đồ độ chính xác của các model', fontweight='bold', pad=30)
     plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.0))
     plt.tight_layout()
@@ -76,10 +77,10 @@ def export_feature_importances(feature_importances, index, savepath):
     plt.figure(figsize=(15,10))
     plt.rc('font', size=18)
     # Creating a bar plot
-    sns.barplot(x=feature_imp, y=feature_imp.index)
+    sns.barplot(x=feature_imp, y=feature_imp.index, hue=feature_imp.index, palette='tab10')
     # Add labels to the graph
-    plt.xlabel('Điểm quan trọng của thuộc tính')
-    plt.ylabel('Thuộc tính')
+    plt.xlabel('Điểm quan trọng của thuộc tính', labelpad=30, fontstyle='italic')
+    plt.ylabel('Thuộc tính', labelpad=30, fontstyle='italic')
     plt.title("Biểu đồ sự quan trọng của các thuộc tính", fontweight='bold', pad='30')
     plt.tight_layout()
 
@@ -144,11 +145,11 @@ car_data = pd.read_csv('resource/car_evaluation.csv', delimiter=',')
 
 
 # Export pie charts displaying values distribution of each feature (to image files)
-for attribute in car_data.columns:
+for feature in car_data.columns:
     export_values_distribution(
-        column=car_data[attribute], 
-        save_path='img/values_distribution/'+attribute+'.png',
-        title='Tỉ lệ giữa các giá trị trong cột \"'+attribute+'\"'
+        column=car_data[feature], 
+        save_path='img/values_distribution/'+feature+'.png',
+        title='Phân bố giá trị trong cột \"'+feature+'\"'
     )
 
 # Convert data's string values to numeric values
@@ -161,7 +162,7 @@ y = car_data['class']
 
 
 # Export heatmap chart (to an image file)
-export_heatmap(data=car_data, save_path='img/heatmap/car_evaluation.png', round_decimals=3)
+export_heatmap(data=car_data, save_path='img/heatmap/car_heatmap.png', round_decimals=3)
 
 
 # Variables store model's test scores
@@ -208,7 +209,7 @@ export_line_chart(
     np.array(range(1, num_of_tests+1)), 
     [knn_f1_score, bayes_f1_score, randomforest_f1_score], 
     ["KNN", "Bayes", "Random Forest"], 
-    ["m", "c", "r"],
+    ["b", "g", "r"],
     "img/line_chart/line.png"    
 )
 
