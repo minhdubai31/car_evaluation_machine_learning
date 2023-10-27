@@ -11,7 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 # Function to create a heatmap chart displaying correlation matrix
 # and save it to an image file
-def export_heatmap(data, save_path, round_decimals=5, title='Biểu đồ tương quan'):
+def export_heatmap(data, save_path, round_decimals=3, title='Biểu đồ tương quan'):
     # Set size for the chart
     plt.figure(figsize=(18, 15))
 
@@ -152,6 +152,7 @@ for feature in car_data.columns:
         title='Phân bố giá trị trong cột \"'+feature+'\"'
     )
 
+
 # Convert data's string values to numeric values
 car_data = car_data_to_numeric(car_data)
 
@@ -162,7 +163,7 @@ y = car_data['class']
 
 
 # Export heatmap chart (to an image file)
-export_heatmap(data=car_data, save_path='img/heatmap/car_heatmap.png', round_decimals=3)
+export_heatmap(data=car_data, save_path='img/heatmap/car_heatmap.png')
 
 
 # Variables store model's test scores
