@@ -186,7 +186,7 @@ for i in  range(num_of_tests):
     # Predict test data
     y_pred = knn_model.predict(X_test)
     # Calculate f1 score
-    knn_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))
+    knn_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="micro")*100,3))
 
     ### Bayes algorithm
     bayes_model = GaussianNB()
@@ -194,7 +194,7 @@ for i in  range(num_of_tests):
     # Predict test data
     y_pred = bayes_model.predict(X_test)
     # Calculate f1 score
-    bayes_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))
+    bayes_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="micro")*100,3))
 
     ### Decision Tree Classifier algorithm
     randomforest_model = RandomForestClassifier()
@@ -202,7 +202,7 @@ for i in  range(num_of_tests):
     # Predict test data
     y_pred = randomforest_model.predict(X_test)
     # Calculate f1 score
-    randomforest_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="weighted")*100,3))    
+    randomforest_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="micro")*100,3))    
 
 
 # Export line chart displaying f1 scores of each model (to an image file)
