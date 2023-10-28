@@ -31,13 +31,13 @@ def export_values_distribution(column, save_path, title='Phân bố giá trị')
     
     # Set size for the chart
     plt.figure(figsize=(15, 15))
-    plt.rc('font', size=24)
+    plt.rc('font', size=40)
 
     # Create the pie chart
-    plt.pie(x=values, labels=labels, colors=sns.color_palette(), autopct='%1.1f%%')
+    plt.pie(x=values, labels=labels, colors=sns.color_palette('Paired'), autopct='%1.1f%%')
 
     # Set title for the chart
-    plt.title(title, fontsize=30, fontweight='bold')
+    plt.title(title, fontsize=50, fontweight='bold')
 
     # Export the chart to file
     plt.savefig(save_path)
