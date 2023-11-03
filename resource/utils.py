@@ -24,9 +24,9 @@ def export_heatmap(data, save_path, round_decimals=3, title='Biểu đồ tươn
 
 
 # Function to create a pie chart displaying the ratio between the values 
-# of the feature and save it to image files
+# of the attribute and save it to image files
 def export_values_distribution(column, save_path, title='Phân bố giá trị'):
-    labels = np.unique(column)
+    labels = column.unique()
     values = column.value_counts()
     
     # Set size for the chart
