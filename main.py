@@ -72,7 +72,7 @@ for i in  range(num_of_tests):
     # Calculate f1 score
     bayes_f1_score.append(round(f1_score(y_true=y_test, y_pred=y_pred, average="micro")*100,3))
 
-    ### Decision Tree Classifier algorithm
+    ### Random Forest Classifier algorithm
     randomforest_model = RandomForestClassifier()
     randomforest_model.fit(X_train, y_train)
     # Predict test data
