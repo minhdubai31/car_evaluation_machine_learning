@@ -14,7 +14,7 @@ from resources.utils import *
 
 
 # Read dataset
-car_data = pd.read_csv('resource/car_evaluation.csv', delimiter=',')
+car_data = pd.read_csv('resources/car_evaluation.csv', delimiter=',')
 
 
 
