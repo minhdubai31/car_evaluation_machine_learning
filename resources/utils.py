@@ -58,7 +58,7 @@ def export_line_chart(x_arr, y_arr, labels_arr, colors_arr, save_path):
     plt.ylim(0, 100)
     plt.yticks(np.arange(0, 101, 10))
     plt.xlim(1, max(x_arr))
-    plt.title('Biểu đồ độ chính xác của các model', fontweight='bold', pad=30)
+    plt.title('Biểu đồ điểm F1 của các giải thuật', fontweight='bold', pad=30)
     plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.0))
     plt.tight_layout()
 
