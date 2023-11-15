@@ -14,7 +14,7 @@
     <body>
         <div class="max-w-xs mt-5 m-auto">
             <div class="text-3xl text-center font-bold">Car Evaluation</div>
-            <form action="http://127.0.0.1:6969/evaluate_single" method="post" id="form1">
+            <form action="/evaluate_single" method="post" id="form1">
                 <label for="buying" class="text-sm font-medium mt-4 block">Buying price:</label>
                 <select class="p-1 w-full border border-gray-400 rounded" name="buying" id="buying">
                     <option value="0">Low</option>
@@ -64,12 +64,12 @@
                 </span>
             </div>
             <p class="my-5 text-xs text-center">Or upload your CSV file</p>
-            <form id="form2" action="http://127.0.0.1:6969/evaluate_file" method="post" enctype="multipart/form-data" class="text-center">
+            <form id="form2" action="/evaluate_file" method="post" enctype="multipart/form-data" class="text-center">
                 <label class="p-3 px-5 bg-blue-500 rounded text-white cursor-pointer hover:bg-blue-700 duration-150" for="csv_file"><i class="fa-solid fa-upload pe-3"></i>Upload your file</label>
                 <input hidden type="file" name="csv_file" id="csv_file">
             </form>
         </div>
         <!-- Ajax script -->
-        <script src="js/script.js"></script>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     </body>
 </html>

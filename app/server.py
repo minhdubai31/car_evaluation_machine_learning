@@ -1,4 +1,4 @@
-from flask import Flask, make_response, request
+from flask import Flask, make_response, render_template, request
 from flask_cors import CORS
 import joblib
 import pathlib
@@ -7,7 +7,7 @@ import pandas
 
 # Load model
 current_path = pathlib.Path(__file__).parent.resolve()
-model = joblib.load(str(current_path)+'\\randomforest_model.joblib')
+model = joblib.load(str(current_path)+'/randomforest_model.joblib')
 
 
 # Function to convert number into string
@@ -67,6 +67,11 @@ def car_data_to_numeric(data):
 app = Flask(__name__)
 # Enable CORS
 CORS(app)
+
+# Render index page
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 
 # Evaluate a single record from client form data and return predicted result (in string type)
