@@ -76,7 +76,7 @@ def evaluate_single():
     form_data = request.form.to_dict()
 
     # Predict the data
-    predicted_result = model.predict(pandas.DataFrame(form_data, index=[0]))
+    predicted_result = model.predict(pandas.DataFrame([form_data]))
 
     # Return predicted result to user (string)
     return to_string_evaluate(predicted_result[0])
